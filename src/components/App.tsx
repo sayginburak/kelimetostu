@@ -22,9 +22,14 @@ type Screen = "home" | "game";
 
 function getSavedDailyState(daily: ReturnType<typeof getDailyAnswer>): GameState | null {
   const savedDaily = loadModeGameState("daily") ?? loadGameState();
-  return savedDaily?.mode === "daily" && savedDaily.dateKey === daily.dateKey && savedDaily.answer === daily.answer
-    ? savedDaily
-    : null;
+  if (savedDaily?.mode !== "daily" || savedDaily.dateKey !== daily.dateKey || savedDaily.answer !== daily.answer) {
+    return null;
+  }
+
+  return {
+    ...savedDaily,
+    dailyNumber: daily.dailyNumber
+  };
 }
 
 function getSavedInitialState(daily: ReturnType<typeof getDailyAnswer>): GameState | null {
