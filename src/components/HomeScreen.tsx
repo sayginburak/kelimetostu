@@ -45,10 +45,6 @@ export default function HomeScreen({ onDaily, onFree, onHelp }: Props) {
             </button>
           </div>
         </div>
-
-        <p className="border-t border-stone-300 pt-5 text-center text-sm font-medium text-stone-500">
-          Özel kelime oluşturma ve seviye modu sonraki sürümler için ayrıldı.
-        </p>
       </section>
     </main>
   );
