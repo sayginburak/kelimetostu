@@ -4,7 +4,7 @@ import { formatElapsedTime } from "./timer";
 export type ShareResult = "shared" | "copied" | "cancelled" | "manual";
 
 export function createShareText(state: GameState): string {
-  const title = `Söz Arası #${state.dailyNumber ?? "Serbest"}`;
+  const title = `Kelime Tostu #${state.dailyNumber ?? "Serbest"}`;
   const guessLine = state.status === "lost" ? `X/${state.maxGuesses}` : `${state.guesses.length}/${state.maxGuesses}`;
   const resultLine = `${guessLine} · ${formatElapsedTime(state.elapsedMs)}`;
   const blocks = state.guesses

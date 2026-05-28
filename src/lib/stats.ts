@@ -18,8 +18,8 @@ export type GuessDistributionGroup = {
   count: number;
 };
 
-const dailyStatsStorageKey = "soz-arasi:daily-stats";
-const freeStatsStorageKey = "soz-arasi:free-stats";
+const dailyStatsStorageKey = "kelime-tostu:daily-stats";
+const freeStatsStorageKey = "kelime-tostu:free-stats";
 const defaultGuessDistributionRanges = [
   [1, 3],
   [4, 6],

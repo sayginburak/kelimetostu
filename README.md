@@ -1,6 +1,6 @@
-# Söz Arası
+# Kelime Tostu
 
-Söz Arası, Türkçe alfabetik sıradaki kelimeler arasında gizlenen 5 harfli günlük kelimeyi bulmaya çalıştığın client-side bir web kelime oyunudur. Betweenle mekaniklerinden ilham alır; isim, arayüz, renkler ve assetler özgündür.
+Kelime Tostu, Türkçe alfabetik sıradaki kelimeler arasında gizlenen 5 harfli günlük kelimeyi bulmaya çalıştığın client-side bir web kelime oyunudur. Betweenle mekaniklerinden ilham alır; isim, arayüz, renkler ve assetler özgündür.
 
 ## Kurulum
 

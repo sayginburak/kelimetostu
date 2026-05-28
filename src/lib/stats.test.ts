@@ -101,7 +101,7 @@ describe("daily stats", () => {
     const storage = window.localStorage;
     clearDailyStats(storage);
     storage.setItem(
-      "soz-arasi:daily-stats",
+      "kelime-tostu:daily-stats",
       JSON.stringify({
         played: 2,
         wins: 1,

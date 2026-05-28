@@ -11,7 +11,7 @@ export default function HomeScreen({ onDaily, onFree, onHelp }: Props) {
     <main className="min-h-screen bg-paper px-5 py-8 text-ink">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-3xl flex-col justify-center gap-8">
         <div className="text-center">
-          <h1 className="text-5xl font-black tracking-normal sm:text-7xl">Söz Arası</h1>
+          <h1 className="text-5xl font-black tracking-normal sm:text-7xl">Kelime Tostu</h1>
           <p className="mt-4 text-xl font-semibold text-stone-600">
             Diğer kelimelerin arasında gizlenen kelimeyi bul.
           </p>

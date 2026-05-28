@@ -26,7 +26,7 @@ export default function GameHeader({ state, onHome, onHelp, onStats }: Props) {
           <Home className="h-7 w-7 sm:h-[30px] sm:w-[30px]" aria-hidden />
         </button>
         <div className="text-center">
-          <h1 className="text-2xl font-black leading-none sm:text-5xl">Söz Arası</h1>
+          <h1 className="text-2xl font-black leading-none sm:text-5xl">Kelime Tostu</h1>
           <p className="text-xs font-black uppercase tracking-normal text-stone-600">
             {state.mode === "daily" ? `Günlük #${state.dailyNumber}` : "Serbest Oyun"}
           </p>

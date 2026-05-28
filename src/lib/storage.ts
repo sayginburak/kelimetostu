@@ -2,11 +2,11 @@ import type { GameState } from "./types";
 import type { GameMode } from "./types";
 import { normalizeElapsedMs } from "./timer";
 
-const legacyStorageKey = "soz-arasi:game-state";
-const dailyStorageKey = "soz-arasi:game-state:daily";
-const freeStorageKey = "soz-arasi:game-state:free";
-const lastModeStorageKey = "soz-arasi:last-mode";
-const recentFreeAnswersStorageKey = "soz-arasi:recent-free-answers";
+const legacyStorageKey = "kelime-tostu:game-state";
+const dailyStorageKey = "kelime-tostu:game-state:daily";
+const freeStorageKey = "kelime-tostu:game-state:free";
+const lastModeStorageKey = "kelime-tostu:last-mode";
+const recentFreeAnswersStorageKey = "kelime-tostu:recent-free-answers";
 const maxRecentFreeAnswers = 20;
 
 function getStateStorageKey(mode: GameMode): string {
@@ -94,6 +94,6 @@ export function clearGameState(storage: Storage = localStorage): void {
   storage.removeItem(freeStorageKey);
   storage.removeItem(lastModeStorageKey);
   storage.removeItem(recentFreeAnswersStorageKey);
-  storage.removeItem("soz-arasi:daily-stats");
-  storage.removeItem("soz-arasi:free-stats");
+  storage.removeItem("kelime-tostu:daily-stats");
+  storage.removeItem("kelime-tostu:free-stats");
 }
