@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #222327;
+  background: #f6f1e8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+.tile-grid {
+  grid-template-columns: repeat(5, minmax(42px, 1fr));
+}
+
+.game-screen {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.game-layout {
+  min-height: 0;
+}
+
+.game-board-zone {
+  flex: 0 0 auto;
+}
+
+.game-controls-zone {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(10.5rem, 1fr);
+  align-items: stretch;
+  gap: clamp(0.45rem, 1.5dvh, 0.9rem);
+}
+
+.word-board {
+  min-height: 0;
+}
+
+.word-tile {
+  min-height: clamp(40px, 9.4dvh, 96px);
+}
+
+.turkish-keyboard {
+  height: 100%;
+  min-height: 0;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.turkish-keyboard > div {
+  min-height: 0;
+}
+
+.turkish-keyboard button {
+  height: 100%;
+  min-height: 2.9rem;
+  font-size: clamp(1.25rem, 3.8dvh, 1.75rem);
+}
+
+.word-rows {
+  --row-gap: 0.75rem;
+}
+
+@keyframes settle-letter {
+  0% {
+    transform: scale(0.96);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-settle-letter {
+  animation: settle-letter 180ms ease-out both;
+}
+
+@keyframes guess-to-top {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  72% {
+    transform: translateY(calc(-100% - var(--row-gap))) scale(1.02);
+  }
+  100% {
+    transform: translateY(calc(-100% - var(--row-gap))) scale(1);
+  }
+}
+
+@keyframes guess-to-bottom {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  72% {
+    transform: translateY(calc(100% + var(--row-gap))) scale(1.02);
+  }
+  100% {
+    transform: translateY(calc(100% + var(--row-gap))) scale(1);
+  }
+}
+
+.animate-guess-to-top {
+  animation: guess-to-top 260ms ease-in-out both;
+}
+
+.animate-guess-to-bottom {
+  animation: guess-to-bottom 260ms ease-in-out both;
+}
+
+@media (max-width: 480px) {
+  .tile-grid {
+    grid-template-columns: repeat(5, minmax(34px, 1fr));
+  }
+
+  .word-rows {
+    --row-gap: 0.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .word-rows {
+    --row-gap: 1rem;
+  }
+}
+
+@media (max-height: 740px) {
+  .word-tile {
+    min-height: clamp(34px, 8.2dvh, 58px);
+    font-size: clamp(1.6rem, 6.6dvh, 3rem);
+  }
+
+  .possible-letters span {
+    height: 1.45rem;
+    width: 1.45rem;
+    font-size: 0.68rem;
+  }
+
+  .turkish-keyboard button {
+    height: 100%;
+    min-height: 2.85rem;
+    border-radius: 0.45rem;
+    font-size: clamp(1.25rem, 3.8dvh, 1.65rem);
+  }
+}
+
+@media (max-height: 660px) {
+  .game-header {
+    padding-bottom: 0.35rem;
+  }
+
+  .word-tile {
+    min-height: clamp(30px, 7.5dvh, 48px);
+  }
+
+  .possible-letters {
+    gap: 0.18rem;
+  }
+
+  .possible-letters span {
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 0.58rem;
+  }
+
+  .turkish-keyboard {
+    gap: 0.28rem;
+  }
+
+  .turkish-keyboard > div {
+    gap: 0.25rem;
+  }
+
+  .turkish-keyboard button {
+    height: 100%;
+    min-height: 2.55rem;
+    font-size: clamp(1.12rem, 3.5dvh, 1.45rem);
+  }
+}

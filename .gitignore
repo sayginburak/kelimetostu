@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.pnpm-store/
+
+.DS_Store
+*.local
+
+raw/sources/
+raw/rejected-words.txt
+raw/words.txt

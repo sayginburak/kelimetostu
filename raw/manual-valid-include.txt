@@ -1,0 +1,3 @@
+# One manually approved 5-letter valid guess per line.
+# Use only sourced or human-reviewed words; do not add AI-invented words.
+çıtır
