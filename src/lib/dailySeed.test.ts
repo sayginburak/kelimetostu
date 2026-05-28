@@ -7,19 +7,19 @@ describe("daily seed", () => {
   });
 
   it("calculates daily number from start date", () => {
-    expect(getDayNumber("2025-01-01")).toBe(1);
-    expect(getDayNumber("2025-01-08")).toBe(8);
+    expect(getDayNumber("2026-05-28")).toBe(1);
+    expect(getDayNumber("2026-06-04")).toBe(8);
   });
 
   it("chooses deterministic answers", () => {
     const result = getDailyAnswer({
-      dateKey: "2025-01-03",
+      dateKey: "2026-05-30",
       answers: ["bahar", "deniz", "kalem"],
       words: ["bahar", "deniz", "kalem"]
     });
 
-    expect(result.answer).toBe("deniz");
-    expect(result.answerIndex).toBe(1);
+    expect(result.answer).toBe("bahar");
+    expect(result.answerIndex).toBe(0);
     expect(result.dailyNumber).toBe(3);
   });
 
