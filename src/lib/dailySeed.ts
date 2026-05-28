@@ -1,4 +1,5 @@
 import { gameConfig } from "../config/gameConfig";
+import { dailyAnswerOverrides } from "../config/dailyOverrides";
 import { answerWords } from "../data/answerWords";
 import { validWords } from "../data/validWords";
 import { normalizeTurkishWord } from "./turkishSort";
@@ -62,13 +63,16 @@ export function getDailyAnswer(params?: {
   answers?: readonly string[];
   words?: readonly string[];
   startDate?: string;
+  overrides?: Record<string, string>;
 }) {
   const answers = params?.answers ?? answerWords;
   const words = params?.words ?? validWords;
   const dateKey = params?.dateKey ?? getIstanbulDateKey(params?.date);
   const dailyNumber = getDayNumber(dateKey, params?.startDate);
-  const index = getDailyAnswerIndex(dateKey, answers, words);
-  const answer = normalizeTurkishWord(answers[index]);
+  const overrides = params?.overrides ?? dailyAnswerOverrides;
+  const overrideAnswer = overrides[dateKey];
+  const index = overrideAnswer === undefined ? getDailyAnswerIndex(dateKey, answers, words) : -1;
+  const answer = normalizeTurkishWord(overrideAnswer ?? answers[index]);
   const answerIndex = words.indexOf(answer);
 
   if (answerIndex < 0) {

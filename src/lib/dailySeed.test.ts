@@ -15,12 +15,54 @@ describe("daily seed", () => {
     const result = getDailyAnswer({
       dateKey: "2026-05-30",
       answers: ["bahar", "deniz", "kalem"],
-      words: ["bahar", "deniz", "kalem"]
+      words: ["bahar", "deniz", "kalem"],
+      overrides: {}
     });
 
     expect(result.answer).toBe("bahar");
     expect(result.answerIndex).toBe(0);
     expect(result.dailyNumber).toBe(3);
+  });
+
+  it("uses a manual daily override when one exists", () => {
+    const result = getDailyAnswer({
+      dateKey: "2026-05-29",
+      answers: ["bahar", "deniz", "kalem"],
+      words: ["bahar", "deniz", "kalem", "özlem"],
+      overrides: {
+        "2026-05-29": "özlem"
+      }
+    });
+
+    expect(result.answer).toBe("özlem");
+    expect(result.answerIndex).toBe(3);
+    expect(result.dailyNumber).toBe(2);
+  });
+
+  it("falls back to deterministic selection when no override exists", () => {
+    const result = getDailyAnswer({
+      dateKey: "2026-05-30",
+      answers: ["bahar", "deniz", "kalem"],
+      words: ["bahar", "deniz", "kalem", "özlem"],
+      overrides: {
+        "2026-05-29": "özlem"
+      }
+    });
+
+    expect(result.answer).toBe("bahar");
+  });
+
+  it("rejects a manual override that is not playable", () => {
+    expect(() =>
+      getDailyAnswer({
+        dateKey: "2026-05-29",
+        answers: ["bahar", "deniz", "kalem"],
+        words: ["bahar", "deniz", "kalem"],
+        overrides: {
+          "2026-05-29": "özlem"
+        }
+      })
+    ).toThrow('Daily answer "özlem" must exist in validWords.');
   });
 
   it("does not walk through the answer list alphabetically", () => {
