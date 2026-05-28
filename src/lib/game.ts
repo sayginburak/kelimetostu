@@ -1,6 +1,5 @@
 import { gameConfig } from "../config/gameConfig";
 import { validWords } from "../data/validWords";
-import { getAlphabeticDistancePercent, getAlphabeticIntervalPosition } from "./alphabeticRank";
 import type { GameMode, GameState, Guess, GuessResult } from "./types";
 import { displayTurkishWord, hasOnlyTurkishGameLetters, normalizeTurkishWord } from "./turkishSort";
 
@@ -110,50 +109,34 @@ export function getGuessResult(guessIndex: number, answerIndex: number): GuessRe
 
 export function getIntervalPosition(
   state: Pick<GameState, "topBoundIndex" | "bottomBoundIndex" | "answerIndex">,
-  words: readonly string[] = validWords
 ): number {
-  return getIntervalPositionForWords({
-    topWord: state.topBoundIndex >= 0 ? words[state.topBoundIndex] : gameConfig.virtualTopBound,
-    answer: words[state.answerIndex],
-    bottomWord: state.bottomBoundIndex < words.length ? words[state.bottomBoundIndex] : gameConfig.virtualBottomBound
-  });
-}
-
-function getIntervalPositionForWords({
-  topWord,
-  answer,
-  bottomWord
-}: {
-  topWord: string;
-  answer: string;
-  bottomWord: string;
-}): number {
-  return getAlphabeticIntervalPosition({ topWord, answer, bottomWord });
+  const width = state.bottomBoundIndex - state.topBoundIndex;
+  if (width <= 0) return 0.5;
+  const position = (state.answerIndex - state.topBoundIndex) / width;
+  if (!Number.isFinite(position)) return 0.5;
+  return Math.min(1, Math.max(0, position));
 }
 
 export function getTopDistancePercent(
   state: Pick<GameState, "topBoundIndex" | "answerIndex">,
   words: readonly string[] = validWords
 ): number {
-  const topWord = state.topBoundIndex >= 0 ? words[state.topBoundIndex] : gameConfig.virtualTopBound;
-  const answer = words[state.answerIndex];
-  return getAlphabeticDistancePercent({ fromWord: topWord, toWord: answer });
+  if (words.length === 0) return 0;
+  return ((state.answerIndex - state.topBoundIndex) / words.length) * 100;
 }
 
 export function getBottomDistancePercent(
   state: Pick<GameState, "bottomBoundIndex" | "answerIndex">,
   words: readonly string[] = validWords
 ): number {
-  const bottomWord = state.bottomBoundIndex < words.length ? words[state.bottomBoundIndex] : gameConfig.virtualBottomBound;
-  const answer = words[state.answerIndex];
-  return getAlphabeticDistancePercent({ fromWord: bottomWord, toWord: answer });
+  if (words.length === 0) return 0;
+  return ((state.bottomBoundIndex - state.answerIndex) / words.length) * 100;
 }
 
 export function formatDistancePercent(value: number): string {
   if (!Number.isFinite(value)) return "?";
   if (value >= 10) return String(Math.round(value));
   if (value >= 1) return value.toFixed(1);
-  if (value > 0 && value < 0.01) return "0.01";
   return value.toFixed(2);
 }
 
@@ -180,7 +163,7 @@ export function makeGuess(state: GameState, guess: string, words: readonly strin
     result,
     topDistancePercentAfterGuess: getTopDistancePercent(nextState, words),
     bottomDistancePercentAfterGuess: getBottomDistancePercent(nextState, words),
-    intervalPositionAfterGuess: getIntervalPosition(nextState, words)
+    intervalPositionAfterGuess: getIntervalPosition(nextState)
   };
 
   const guesses = [...state.guesses, nextGuess];

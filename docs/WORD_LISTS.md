@@ -1,11 +1,11 @@
 # Word List Pipeline
 
-Söz Arası iki ayrı kelime listesi kullanır:
+Kelime Tostu iki ayrı kelime listesi kullanır:
 
 - `validWords`: oyuncunun tahmin olarak yazabileceği geniş havuz.
 - `answerWords`: günlük cevap olarak seçilebilecek daha temiz ve daha yaygın havuz.
 
-`answerWords`, her zaman `validWords` listesinin alt kümesi olmalıdır. Oyun içindeki bound güncellemeleri `validWords` indexleriyle yapılır. Sol yakınlık göstergesindeki nokta ve yüzdeler ise Türkçe alfabetik 5 harf uzayındaki yaklaşık konuma göre hesaplanır.
+`answerWords`, her zaman `validWords` listesinin alt kümesi olmalıdır. Oyun içindeki bound güncellemeleri, mesafe yüzdeleri ve sol yakınlık göstergesindeki nokta `validWords` listesindeki indekslerle hesaplanır.
 
 ## Hedef Boyutlar
 

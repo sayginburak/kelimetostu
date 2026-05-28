@@ -258,7 +258,7 @@ export default function Game({ state, validWords, onStateChange, onHome, onHelp,
               bottomBound={getBottomBound(state, validWords)}
               currentInput={boardInput}
               status={state.status}
-              intervalPosition={getIntervalPosition(state, validWords)}
+              intervalPosition={getIntervalPosition(state)}
               showDistances={hasGuesses}
               topDistancePercent={getTopDistancePercent(state, validWords)}
               bottomDistancePercent={getBottomDistancePercent(state, validWords)}

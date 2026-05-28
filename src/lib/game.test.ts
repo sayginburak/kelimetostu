@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { gameConfig } from "../config/gameConfig";
-import { getAlphabeticDistancePercent, getAlphabeticIntervalPosition } from "./alphabeticRank";
 import {
   createGame,
   formatDistancePercent,
@@ -82,22 +81,16 @@ describe("distance helpers", () => {
   it("calculates distance and marker values", () => {
     const state = createGame({ answer: "kalem", words });
 
-    expect(getTopDistancePercent(state, words)).toBeCloseTo(
-      getAlphabeticDistancePercent({ fromWord: "aaaaa", toWord: "kalem" })
-    );
-    expect(getBottomDistancePercent(state, words)).toBeCloseTo(
-      getAlphabeticDistancePercent({ fromWord: "zzzzz", toWord: "kalem" })
-    );
-    expect(getIntervalPosition(state, words)).toBeCloseTo(
-      getAlphabeticIntervalPosition({ topWord: "aaaaa", answer: "kalem", bottomWord: "zzzzz" })
-    );
+    expect(getTopDistancePercent(state, words)).toBe(50);
+    expect(getBottomDistancePercent(state, words)).toBe(62.5);
+    expect(getIntervalPosition(state)).toBeCloseTo(4 / 9);
   });
 
   it.each([
     [27.2, "27"],
     [6.63, "6.6"],
     [0.834, "0.83"],
-    [0.004, "0.01"],
+    [0.004, "0.00"],
     [0, "0.00"]
   ])("formats %s as %s", (input, output) => {
     expect(formatDistancePercent(input)).toBe(output);

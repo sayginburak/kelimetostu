@@ -35,29 +35,32 @@ export default function HelpModal({ isOpen, onClose }: Props) {
         </div>
 
         <div className="space-y-4 text-[1.35rem] font-medium leading-snug text-ink sm:text-2xl">
-          <p>Diğer kelimelerin arasında gizlenen kelimeyi bul.</p>
+          <p>Gizli 5 harfli Türkçe kelimeyi bul.</p>
           <p>
-            Sözlük <strong>Türkçe alfabetik sıraya</strong> göre sıralıdır.
+            Kelimeler <strong>Türkçe alfabetik sıraya</strong> göre dizilidir.
           </p>
           <p>
-            Girdiğin kelime, gizli kelimenin sözlükte <strong>önce</strong> mi yoksa <strong>sonra</strong> mı
-            geldiğini gösterir.
+            Mavi satırlar arama sınırlarıdır: gizli kelime üstteki mavi kelimeden <strong>sonra</strong>, alttaki
+            mavi kelimeden <strong>önce</strong> gelir.
           </p>
           <p>
-            <strong>Turuncu nokta</strong>, gizli kelimenin Türkçe alfabetik olarak üst kelimeye mi alt kelimeye
-            mi daha yakın olduğunu gösterir.
+            Her tahminden sonra bu iki sınır daralır.
           </p>
         </div>
 
         <HelpDivider />
 
-        <HelpStep title="1) Geçerli 5 harfli bir kelime girerek başla:">
+        <HelpStep title="1) Ortadaki kutulara geçerli bir kelime yaz:">
           <ExampleBoard top="aaaaa" middle="sabah" bottom="zzzzz" marker="none" />
+          <p className="mt-4 text-[1.15rem] leading-snug sm:text-xl">
+            Başta <strong>AAAAA</strong> ve <strong>ZZZZZ</strong> gerçek tahmin değil; en geniş başlangıç
+            sınırlarını gösterir.
+          </p>
         </HelpStep>
 
         <HelpDivider />
 
-        <HelpStep title="2) Girilen kelime yukarıya veya aşağıya taşınır:">
+        <HelpStep title="2) Tahminin yeni sınıra dönüşür:">
           <ExampleBoard
             top="aaaaa"
             middle=""
@@ -69,34 +72,45 @@ export default function HelpModal({ isOpen, onClose }: Props) {
           />
           <div className="mt-4 space-y-1 text-[1.15rem] leading-snug sm:text-xl">
             <p>
-              <strong>yukarı</strong> - gizli kelime girilen kelimeden <strong>sonra</strong> gelir
+              Tahminin <strong>yukarı</strong> taşınırsa cevap o kelimeden <strong>sonra</strong> gelir.
             </p>
             <p>
-              <strong>aşağı</strong> - gizli kelime girilen kelimeden <strong>önce</strong> gelir
+              Tahminin <strong>aşağı</strong> taşınırsa cevap o kelimeden <strong>önce</strong> gelir.
+            </p>
+            <p>
+              Bu örnekte <strong>SABAH</strong> aşağı indi; yani cevap <strong>SABAH</strong>&apos;tan önce.
             </p>
           </div>
           <div className="mt-5 space-y-4 text-[1.15rem] leading-snug sm:text-xl">
             <p>
-              <strong>Turuncu nokta</strong>, gizli kelimenin alfabetik olarak alt kelimeye çok daha yakın olduğunu
-              anlatır.
+              <strong>Turuncu nokta</strong>, cevabın üstteki kelimeye mi alttaki kelimeye mi daha yakın olduğunu
+              gösterir.
             </p>
             <p>
-              <strong>12</strong> sayısı, gizli kelimenin alt kelimeye alfabetik uzaklığının yaklaşık{" "}
-              <strong>%12</strong> olduğunu gösterir.
+              Rozetteki sayı yüzde gibi okunur: <strong>12</strong>, yaklaşık <strong>%12</strong> uzaklık demektir.
+              Sayı küçüldükçe cevap o kelimeye yaklaşır.
             </p>
           </div>
         </HelpStep>
 
         <HelpDivider />
 
-        <HelpStep title="3) Her tahmin sözlükte üst ve alt kelimelerin arasında olmalıdır:">
+        <HelpStep title="3) Sonraki tahminlerin bu iki sınırın arasında olmalı:">
           <ExampleBoard top="deniz" middle="kalem" bottom="sabah" topBadge="6.6" bottomBadge="12" marker="upper" />
+          <p className="mt-4 text-[1.15rem] leading-snug sm:text-xl">
+            Bu örnekte tahminin <strong>DENİZ</strong> ile <strong>SABAH</strong> arasında olmalı. Aralığın dışında
+            kalan kelimeler kabul edilmez.
+          </p>
         </HelpStep>
 
         <HelpDivider />
 
-        <HelpStep title="4) Her tahmin, olası kelime aralığını küçülterek seni gizli kelimeye yaklaştırır:">
+        <HelpStep title="4) Doğru kelimeyi bulduğunda orta satır yeşil olur:">
           <ExampleBoard top="kalem" middle="kitap" bottom="köpek" topBadge="2.7" bottomBadge="0.83" marker="win" middleKind="win" />
+          <p className="mt-4 text-[1.15rem] leading-snug sm:text-xl">
+            Klavyenin üstündeki küçük harfler yardım içindir: yazabileceğin sıradaki harfler koyu, yazamayacakların
+            soluk görünür.
+          </p>
         </HelpStep>
       </section>
     </div>
