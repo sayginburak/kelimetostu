@@ -16,7 +16,7 @@ describe("share text", () => {
 
     state = { ...state, elapsedMs: 75_000 };
 
-    expect(createShareText(state)).toBe("Kelime Tostu #123\n2/14 · 1:15\n🟦🟩");
+    expect(createShareText(state)).toBe("Kelime Tostu #123\n2/14 · 1:15\n🟦🟩\n\nkelimetostu.com");
     expect(createShareText(state)).not.toContain("kalem");
   });
 
@@ -36,7 +36,7 @@ describe("share text", () => {
     };
 
     expect(createShareText(state)).toBe(
-      "Kelime Tostu #123\nX/14 · 10:12\n🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟧"
+      "Kelime Tostu #123\nX/14 · 10:12\n🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟧\n\nkelimetostu.com"
     );
   });
 

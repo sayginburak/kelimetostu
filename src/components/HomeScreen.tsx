@@ -41,7 +41,7 @@ export default function HomeScreen({ onDaily, onFree, onHelp }: Props) {
               className="flex items-center justify-center gap-3 rounded-lg bg-active px-5 py-4 text-xl font-black text-white shadow-sm transition hover:brightness-105"
             >
               <CircleHelp aria-hidden size={26} />
-              Yardım
+              Nasıl Oynanır?
             </button>
           </div>
         </div>

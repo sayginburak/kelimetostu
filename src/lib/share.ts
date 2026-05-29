@@ -16,7 +16,7 @@ export function createShareText(state: GameState): string {
     })
     .join("");
 
-  return `${title}\n${resultLine}\n${blocks}`;
+  return `${title}\n${resultLine}\n${blocks}\n\nkelimetostu.com`;
 }
 
 async function copyWithClipboardApi(text: string): Promise<boolean> {
