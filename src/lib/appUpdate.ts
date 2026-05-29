@@ -7,7 +7,7 @@ type VersionFile = {
 };
 
 function getVersionUrl() {
-  const versionUrl = new URL(`${import.meta.env.BASE_URL}version.json`, window.location.origin);
+  const versionUrl = new URL("version.json", window.location.href);
   versionUrl.searchParams.set("t", Date.now().toString());
   return versionUrl.toString();
 }

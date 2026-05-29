@@ -5,7 +5,7 @@ import type { GameState, Guess, GameMode } from "./types";
 type ScreenName = "home" | "game";
 
 const token = import.meta.env.VITE_POSTHOG_PROJECT_TOKEN?.trim();
-const apiHost = import.meta.env.VITE_POSTHOG_HOST?.trim() || "https://us.i.posthog.com";
+const apiHost = import.meta.env.VITE_POSTHOG_HOST?.trim() || "https://t.kelimetostu.com";
 const captureLocal = import.meta.env.VITE_POSTHOG_CAPTURE_LOCAL === "true";
 const debug = import.meta.env.VITE_POSTHOG_DEBUG === "true";
 const appVersion = import.meta.env.VITE_APP_VERSION ?? "dev";

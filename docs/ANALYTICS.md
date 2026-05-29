@@ -8,19 +8,18 @@ Create `.env.local` for local testing:
 
 ```bash
 VITE_POSTHOG_PROJECT_TOKEN=phc_your_project_token
-VITE_POSTHOG_HOST=https://us.i.posthog.com
+VITE_POSTHOG_HOST=https://t.kelimetostu.com
 VITE_POSTHOG_CAPTURE_LOCAL=false
 VITE_POSTHOG_DEBUG=false
 ```
 
 `VITE_POSTHOG_CAPTURE_LOCAL=false` keeps local development data out of PostHog by default. Set it to `true` only when intentionally testing analytics locally.
 
-For GitHub Pages, add repository variables:
+Production requires this env variable:
 
 - `VITE_POSTHOG_PROJECT_TOKEN`
-- `VITE_POSTHOG_HOST`
 
-The deploy workflow passes those variables to the Vite build.
+`VITE_POSTHOG_HOST` defaults to `https://t.kelimetostu.com` if it is not provided. For GitHub Pages, add repository variables with these names. The deploy workflow passes those variables to the Vite build.
 
 ## Captured Events
 
