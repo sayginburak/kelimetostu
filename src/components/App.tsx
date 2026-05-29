@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { answerWords } from "../data/answerWords";
 import { validWords } from "../data/validWords";
+import { trackGameStarted, trackHelpOpened, trackModeSelected, trackScreenView } from "../lib/analytics";
 import { getDailyAnswer } from "../lib/dailySeed";
 import { pickFreeAnswer } from "../lib/freeAnswer";
 import { createGame } from "../lib/game";
@@ -50,6 +51,10 @@ export default function App() {
   const [state, setState] = useState<GameState | null>(savedInitialState);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
+  useEffect(() => {
+    trackScreenView(screen);
+  }, [screen]);
+
   const persistState = useCallback((nextState: GameState) => {
     saveModeGameState(nextState);
     setState(nextState);
@@ -57,8 +62,9 @@ export default function App() {
 
   const startDaily = useCallback(() => {
     saveLastMode("daily");
+    const savedDailyState = getSavedDailyState(daily);
     const nextState =
-      getSavedDailyState(daily) ??
+      savedDailyState ??
       createGame({
         answer: daily.answer,
         mode: "daily",
@@ -66,6 +72,8 @@ export default function App() {
         dailyNumber: daily.dailyNumber
       });
     persistState(nextState);
+    trackModeSelected("daily");
+    trackGameStarted(nextState, "daily", Boolean(savedDailyState));
     setScreen("game");
   }, [daily, persistState]);
 
@@ -87,6 +95,8 @@ export default function App() {
       saveRecentFreeAnswer(nextState.answer);
     }
     persistState(nextState);
+    trackModeSelected("free");
+    trackGameStarted(nextState, "free", !options?.forceNew && canResumeSavedFree);
     setScreen("game");
   }, [persistState]);
 
@@ -101,7 +111,14 @@ export default function App() {
   if (screen === "home") {
     return (
       <>
-        <HomeScreen onDaily={startDaily} onFree={startFree} onHelp={() => setIsHelpOpen(true)} />
+        <HomeScreen
+          onDaily={startDaily}
+          onFree={startFree}
+          onHelp={() => {
+            trackHelpOpened("home");
+            setIsHelpOpen(true);
+          }}
+        />
         <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       </>
     );
@@ -113,8 +130,13 @@ export default function App() {
         state={state ?? createGame({ answer: daily.answer, mode: "daily", dateKey: daily.dateKey, dailyNumber: daily.dailyNumber })}
         validWords={validWords}
         onStateChange={persistState}
-        onHome={() => setScreen("home")}
-        onHelp={() => setIsHelpOpen(true)}
+        onHome={() => {
+          setScreen("home");
+        }}
+        onHelp={() => {
+          trackHelpOpened("game");
+          setIsHelpOpen(true);
+        }}
         onRestart={restartMode}
       />
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />

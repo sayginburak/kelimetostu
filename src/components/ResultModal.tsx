@@ -1,5 +1,6 @@
 import { ArrowLeft, RotateCcw, Share2, X } from "lucide-react";
 import { useState } from "react";
+import { trackShareResult } from "../lib/analytics";
 import { createShareText, shareResult } from "../lib/share";
 import { getAverageCompletionTimeMs, getGroupedGuessDistribution, getWinPercent, type DailyStats } from "../lib/stats";
 import { formatElapsedTime } from "../lib/timer";
@@ -28,6 +29,7 @@ export default function ResultModal({ state, gameStats, isOpen, onClose, onMenu,
 
   async function onShare() {
     const result = await shareResult(state);
+    trackShareResult(state, result);
     if (result === "shared") {
       setFeedback("Paylaşıldı");
       setManualShareText("");

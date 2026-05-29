@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gameConfig } from "../config/gameConfig";
+import { trackGameCompleted, trackGuessSubmitted, trackInvalidGuess, trackStatsOpened } from "../lib/analytics";
 import { getBottomBound, getBottomDistancePercent, getIntervalPosition, getTopBound, getTopDistancePercent, isValidGuess, makeGuess } from "../lib/game";
 import { getPossibleNextLettersForAlphabeticBounds } from "../lib/hints";
 import { loadStats, recordGameResult, type DailyStats } from "../lib/stats";
@@ -33,6 +34,7 @@ export default function Game({ state, validWords, onStateChange, onHome, onHelp,
   const timerBaseElapsed = useRef(normalizeElapsedMs(state.elapsedMs));
   const timerStartedAt = useRef<number | null>(null);
   const timerInterval = useRef<number | null>(null);
+  const trackedCompletedGames = useRef(new Set<string>());
 
   const getLiveElapsedMs = useCallback(() => {
     if (timerStartedAt.current === null) return timerBaseElapsed.current;
@@ -149,12 +151,14 @@ export default function Game({ state, validWords, onStateChange, onHome, onHelp,
     const stateWithCurrentTime = { ...state, elapsedMs: getLiveElapsedMs() };
     const validation = isValidGuess(stateWithCurrentTime.currentInput, stateWithCurrentTime, validWords);
     if (!validation.ok) {
+      trackInvalidGuess(stateWithCurrentTime, validation.reason, stateWithCurrentTime.currentInput.length);
       showMessage(validation.message);
       return;
     }
 
     const nextState = makeGuess(stateWithCurrentTime, stateWithCurrentTime.currentInput, validWords);
     const lastGuess = nextState.guesses[nextState.guesses.length - 1];
+    trackGuessSubmitted(nextState, lastGuess);
     if (lastGuess.result === "correct") {
       setIsResultModalDismissed(false);
       onStateChange(nextState);
@@ -209,6 +213,10 @@ export default function Game({ state, validWords, onStateChange, onHome, onHelp,
   useEffect(() => {
     if (state.status !== "playing") {
       setGameStats(recordGameResult(state));
+      if (!trackedCompletedGames.current.has(state.gameId)) {
+        trackedCompletedGames.current.add(state.gameId);
+        trackGameCompleted(state);
+      }
     }
   }, [state]);
 
@@ -239,13 +247,14 @@ export default function Game({ state, validWords, onStateChange, onHome, onHelp,
   const isFinished = state.status !== "playing";
   const boardInput = state.status === "won" ? state.answer : state.currentInput;
   const openStatsOrResult = useCallback(() => {
+    trackStatsOpened(state);
     if (isFinished) {
       setIsStatsModalOpen(false);
       setIsResultModalDismissed(false);
       return;
     }
     setIsStatsModalOpen(true);
-  }, [isFinished]);
+  }, [isFinished, state]);
 
   return (
     <main className="game-screen bg-paper px-3 py-2 text-ink sm:px-6 sm:py-4">
